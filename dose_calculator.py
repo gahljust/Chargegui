@@ -21,19 +21,19 @@ def on_button_click():
          # Average charge from entry1_2 to entry1_3
         beg_index = int(entry1_2.get()) - 1
         end_index = int(entry1_3.get())
-        avg_charge = df['Ch2'].iloc[beg_index:end_index].mean()*10**9
+        avg_charge = df['Ch3'].iloc[beg_index:end_index].mean()*10**9
         print(f'Average Charge On OSL: {avg_charge}')
 
         df1 = df.iloc[begshot:endshot]
         df1.to_csv(runname + 'int.txt', index=False)
 
         # Sum the charge for each run
-        sum_val = df1['Ch2'].sum()*10**9
+        sum_val = df1['Ch3'].sum()*10**9
         # Average the charge for each run
-        avg_val = df1['Ch2'].mean()*10**9
+        avg_val = df1['Ch3'].mean()*10**9
         print(f'Average Charge for Material: {avg_val}')
         # The standard deviation of the charge for each run
-        std_val = df1['Ch2'].std()*10**9
+        std_val = df1['Ch3'].std()*10**9
 
         # New OSL Dose calculation
         osl_dose = round(float(entry1_1.get()) / avg_charge,2)
@@ -66,7 +66,7 @@ def on_button_click():
         result_label.pack()
 
         # Scale the data
-        scaled_data = df1['Ch2'] * 10**9
+        scaled_data = df1['Ch3'] * 10**9
 
         # Create histogram
         figure = plt.Figure(figsize=(6,5), dpi=100)
@@ -104,7 +104,7 @@ def on_button_click2():
         chart_type.get_tk_widget().pack()
         
         # Scale the data
-        scaled_data = df1['Ch2'] * 10**9
+        scaled_data = df1['Ch3'] * 10**9
 
         # Plot the scaled histogram
         scaled_data.plot(kind='hist', ax=ax)
