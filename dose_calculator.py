@@ -4,7 +4,8 @@ from tkinter import filedialog
 import pandas as pd
 import shutil
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
+
 
 import tempfile
 
@@ -18,14 +19,10 @@ def load_data():
         return None
     return pd.read_csv(filename, sep='  ', engine='python')
 
+
 def create_histogram(df, window):
-    """
-    Create a histogram and display it in the given window.
-    """
     figure = plt.Figure(figsize=(6, 5), dpi=100)
     ax = figure.add_subplot(111)
-    chart_type = FigureCanvasTkAgg(figure, window)
-    chart_type.get_tk_widget().pack()
 
     # Scale the data from the second column (index 1)
     scaled_data = df.iloc[:, 1] * 10**9
@@ -33,7 +30,15 @@ def create_histogram(df, window):
     ax.set_ylabel('Count')
     ax.set_xlabel('Charge [nC]')
 
-    return scaled_data
+    canvas = FigureCanvasTkAgg(figure, master=window)
+    canvas.draw()
+    canvas.get_tk_widget().pack()
+
+    # Adding the Matplotlib toolbar
+    toolbar = NavigationToolbar2Tk(canvas, window)
+    toolbar.update()
+    canvas._tkcanvas.pack()
+
 
 
 def on_button_click():
